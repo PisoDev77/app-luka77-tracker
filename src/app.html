@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="description" content="루카 돈치치의 NBA 성과를 실시간으로 추적하고 분석하는 PWA 앱" />
+    <meta name="keywords" content="루카 돈치치, NBA, 농구, 스탯, 통계, PWA" />
+    <meta name="author" content="Luka Tracker Team" />
+    
+    <!-- PWA 메타 태그 -->
+    <meta name="theme-color" content="#00538C" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Luka Tracker" />
+    
+    <!-- 소셜 미디어 메타 태그 -->
+    <meta property="og:title" content="Luka Tracker - 루카 돈치치 스탯 추적기" />
+    <meta property="og:description" content="루카 돈치치의 NBA 성과를 실시간으로 추적하고 분석하는 PWA" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://luka-tracker.vercel.app" />
+    <meta property="og:image" content="/og-image.png" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Luka Tracker" />
+    <meta name="twitter:description" content="루카 돈치치 NBA 스탯 실시간 추적" />
+    <meta name="twitter:image" content="/twitter-image.png" />
+    
+    <title>Luka Tracker - 루카 돈치치 스탯 추적기</title>
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover" class="h-full bg-gray-50 font-sans antialiased">
+    <div style="display: contents" class="h-full">%sveltekit.body%</div>
+    
+    <noscript>
+      <div class="fixed inset-0 bg-gray-900 text-white flex items-center justify-center">
+        <div class="text-center">
+          <h1 class="text-2xl font-bold mb-4">JavaScript가 필요합니다</h1>
+          <p>이 앱을 사용하려면 JavaScript를 활성화해주세요.</p>
+        </div>
+      </div>
+    </noscript>
+  </body>
+</html>

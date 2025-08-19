@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(git add:*)"
+    ],
+    "additionalDirectories": [
+      "C:\\c\\dev\\applications"
+    ]
+  }
+}
