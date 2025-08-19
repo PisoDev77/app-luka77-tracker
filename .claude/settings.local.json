@@ -7,7 +7,8 @@
       "Bash(git add:*)",
       "Bash(curl:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(npm run preview:*)"
     ],
     "additionalDirectories": [
       "C:\\c\\dev\\applications"

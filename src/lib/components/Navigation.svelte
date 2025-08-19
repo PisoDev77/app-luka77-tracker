@@ -24,31 +24,7 @@
       title: '대시보드',
       path: '/',
       icon: '🏠',
-      description: '주요 통계 개요'
-    },
-    {
-      title: '실시간 게임',
-      path: '/live',
-      icon: '🔴',
-      description: '현재 경기 추적'
-    },
-    {
-      title: '통계 분석',
-      path: '/stats',
-      icon: '📊',
-      description: '상세 성과 분석'
-    },
-    {
-      title: '기록실',
-      path: '/records',
-      icon: '🏆',
-      description: '커리어 하이라이트'
-    },
-    {
-      title: '비교 분석',
-      path: '/compare',
-      icon: '⚖️',
-      description: 'MVP 후보 비교'
+      description: '루카 돈치치 추적'
     }
   ];
 
@@ -234,7 +210,7 @@
     <div class="p-4 border-t border-gray-200">
       {#if !isCollapsed}
         <div class="text-center">
-          <div class="text-xs text-gray-500 mb-1">Dallas Mavericks</div>
+          <div class="text-xs text-gray-500 mb-1">Los Angeles Lakers</div>
           <div class="text-sm font-semibold text-mavs-blue">#77 Luka Dončić</div>
           <div class="text-xs text-gray-400 mt-1">Point Guard</div>
         </div>

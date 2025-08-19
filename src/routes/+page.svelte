@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import StatCard from '$components/StatCard.svelte';
   import GameSchedule from '$components/GameSchedule.svelte';
   import RecentGames from '$components/RecentGames.svelte';
   import { freeNbaApi } from '$utils/api-free.js';
