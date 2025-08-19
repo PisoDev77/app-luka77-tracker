@@ -138,19 +138,36 @@
     {#if currentSeasonStats && currentSeasonStats.player}
       <div class="card p-6">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">👤 선수 정보</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 프로필 사진 -->
+          <div class="flex justify-center md:justify-start">
+            <div class="w-32 h-32 rounded-full overflow-hidden shadow-lg">
+              <img 
+                src="/luka-profile.svg" 
+                alt="루카 돈치치" 
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
           <div>
-            <p class="mb-2"><strong>이름:</strong> {currentSeasonStats.player.first_name} {currentSeasonStats.player.last_name}</p>
+            <p class="mb-2"><strong>이름:</strong> {currentSeasonStats.player.first_name || 'Luka'} {currentSeasonStats.player.last_name || 'Dončić'}</p>
             <p class="mb-2"><strong>포지션:</strong> {currentSeasonStats.player.position || 'PG-SG'}</p>
             <p class="mb-2"><strong>신장:</strong> {currentSeasonStats.player.height_feet || 6}ft {currentSeasonStats.player.height_inches || 7}in</p>
             <p><strong>체중:</strong> {currentSeasonStats.player.weight_pounds || 230}lbs</p>
           </div>
           {#if currentSeasonStats.team}
             <div>
-              <p class="mb-2"><strong>팀:</strong> {currentSeasonStats.team.team.full_name}</p>
-              <p class="mb-2"><strong>시즌 기록:</strong> {currentSeasonStats.team.wins}승 {currentSeasonStats.team.losses}패</p>
-              <p class="mb-2"><strong>승률:</strong> {(currentSeasonStats.team.win_percentage * 100).toFixed(1)}%</p>
+              <p class="mb-2"><strong>팀:</strong> {currentSeasonStats.team.team?.full_name || 'Los Angeles Lakers'}</p>
+              <p class="mb-2"><strong>시즌 기록:</strong> {currentSeasonStats.team.wins || 0}승 {currentSeasonStats.team.losses || 0}패</p>
+              <p class="mb-2"><strong>승률:</strong> {((currentSeasonStats.team.win_percentage || 0) * 100).toFixed(1)}%</p>
               <p><strong>컨퍼런스 순위:</strong> {currentSeasonStats.team.conference_rank || 'N/A'}위</p>
+            </div>
+          {:else}
+            <div>
+              <p class="mb-2"><strong>팀:</strong> Los Angeles Lakers</p>
+              <p class="mb-2"><strong>시즌 기록:</strong> 데이터 로딩 중...</p>
+              <p class="mb-2"><strong>승률:</strong> -</p>
+              <p><strong>컨퍼런스 순위:</strong> -</p>
             </div>
           {/if}
         </div>

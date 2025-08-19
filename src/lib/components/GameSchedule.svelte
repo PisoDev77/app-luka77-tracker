@@ -121,15 +121,15 @@
         <div class="flex items-center space-x-3">
           <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
             <span class="text-xs font-semibold text-gray-600">
-              {game.visitor_team.abbreviation}
+              {game.visitor_team?.abbreviation || 'TBD'}
             </span>
           </div>
           <div>
             <div class="font-semibold text-gray-900">
-              {game.visitor_team.city}
+              {game.visitor_team?.city || '미정'}
             </div>
             <div class="text-sm text-gray-600">
-              {game.visitor_team.name}
+              {game.visitor_team?.name || ''}
             </div>
           </div>
         </div>
@@ -150,15 +150,15 @@
         <div class="flex items-center space-x-3">
           <div>
             <div class="font-semibold text-gray-900 text-right">
-              {game.home_team.city}
+              {game.home_team?.city || '미정'}
             </div>
             <div class="text-sm text-gray-600 text-right">
-              {game.home_team.name}
+              {game.home_team?.name || ''}
             </div>
           </div>
           <div class="w-8 h-8 bg-mavs-blue rounded-full flex items-center justify-center">
             <span class="text-xs font-semibold text-white">
-              {game.home_team.abbreviation}
+              {game.home_team?.abbreviation || 'TBD'}
             </span>
           </div>
         </div>
@@ -169,7 +169,7 @@
         <div class="text-center pt-3 border-t border-gray-200">
           {#if isLive}
             <div class="text-sm font-semibold text-red-600">
-              {game.period}쿼터 진행 중
+              {game.period || 1}쿼터 진행 중
             </div>
             {#if game.time}
               <div class="text-xs text-gray-600 mt-1">
@@ -200,7 +200,7 @@
               {game.postseason ? '플레이오프' : '정규시즌'}
             </span>
             <span>
-              {game.season} 시즌
+              {game.season || '2025'} 시즌
             </span>
           </div>
         </div>

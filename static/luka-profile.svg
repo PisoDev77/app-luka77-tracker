@@ -1,0 +1,18 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#00538C"/>
+  
+  <!-- Lakers purple accent -->
+  <rect x="0" y="0" width="200" height="40" fill="#552583"/>
+  
+  <!-- Player silhouette -->
+  <circle cx="100" cy="80" r="25" fill="#FDB927" opacity="0.9"/>
+  <rect x="85" y="105" width="30" height="40" rx="15" fill="#FDB927" opacity="0.9"/>
+  
+  <!-- Jersey number -->
+  <text x="100" y="140" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="36" font-weight="bold" fill="#FFFFFF">#77</text>
+  
+  <!-- Name -->
+  <text x="100" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FDB927">LUKA</text>
+  <text x="100" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FDB927">DONČIĆ</text>
+</svg>
