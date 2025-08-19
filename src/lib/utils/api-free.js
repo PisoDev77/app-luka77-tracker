@@ -263,14 +263,15 @@ class FreeNbaApiClient {
    */
   async getNextGame() {
     try {
-      const today = new Date().toISOString().split('T')[0];
-      const games = await this.getGames({
-        start_date: today,
-        end_date: this.getDateString(30) // 30일 후까지
+      // 2025 시즌 경기 일정에서 가장 빠른 경기 조회
+      const data = await this.fetchWithCache('/games', {
+        'team_ids[]': LAKERS_TEAM_ID,
+        'seasons[]': 2025,
+        per_page: 1
       });
       
-      const upcomingGames = games.filter(game => new Date(game.date) > new Date());
-      return upcomingGames.length > 0 ? upcomingGames[0] : null;
+      const games = data.data || [];
+      return games.length > 0 ? games[0] : null;
     } catch (error) {
       console.error('다음 경기 조회 실패:', error);
       return this.getMockNextGame();
@@ -284,17 +285,18 @@ class FreeNbaApiClient {
    */
   async getRecentGames(limit = 5) {
     try {
-      const endDate = new Date().toISOString().split('T')[0];
-      const startDate = this.getDateString(-30); // 30일 전부터
-      
-      const games = await this.getGames({
-        start_date: startDate,
-        end_date: endDate,
-        limit: limit
+      // 2024 시즌 완료된 경기들을 최신순으로 조회
+      const data = await this.fetchWithCache('/games', {
+        'team_ids[]': LAKERS_TEAM_ID,
+        'seasons[]': 2024,
+        per_page: limit
       });
       
+      const games = data.data || [];
+      // 완료된 경기만 필터링하고 날짜순으로 정렬
       return games
-        .filter(game => new Date(game.date) <= new Date())
+        .filter(game => game.status === 'Final')
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
         .slice(0, limit);
     } catch (error) {
       console.error('최근 경기 조회 실패:', error);

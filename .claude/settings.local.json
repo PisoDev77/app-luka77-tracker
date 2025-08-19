@@ -8,7 +8,8 @@
       "Bash(curl:*)",
       "Bash(git branch:*)",
       "Bash(git push:*)",
-      "Bash(npm run preview:*)"
+      "Bash(npm run preview:*)",
+      "WebSearch"
     ],
     "additionalDirectories": [
       "C:\\c\\dev\\applications"
