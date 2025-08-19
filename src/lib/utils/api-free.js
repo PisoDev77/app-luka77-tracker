@@ -344,19 +344,19 @@ class FreeNbaApiClient {
 
   getMockTeams() {
     return [
-      { id: 6, full_name: 'Dallas Lakers', abbreviation: 'DAL', city: 'Dallas', name: 'Lakers' }
+      { id: 14, full_name: 'Los Angeles Lakers', abbreviation: 'LAL', city: 'Los Angeles', name: 'Lakers' }
     ];
   }
 
   getMockLakers() {
     return {
-      id: 6,
-      full_name: 'Dallas Lakers',
-      abbreviation: 'DAL',
-      city: 'Dallas',
+      id: 14,
+      full_name: 'Los Angeles Lakers',
+      abbreviation: 'LAL',
+      city: 'Los Angeles',
       name: 'Lakers',
       conference: 'West',
-      division: 'Southwest'
+      division: 'Pacific'
     };
   }
 
@@ -376,8 +376,8 @@ class FreeNbaApiClient {
   getMockLakersPlayers() {
     return [
       this.getMockLuka(),
-      { id: 2, first_name: 'Kyrie', last_name: 'Irving', position: 'PG' },
-      { id: 3, first_name: 'Tim', last_name: 'Hardaway Jr.', position: 'SG' }
+      { id: 2, first_name: 'Anthony', last_name: 'Davis', position: 'PF-C' },
+      { id: 3, first_name: 'LeBron', last_name: 'James', position: 'SF-PF' }
     ];
   }
 
@@ -410,7 +410,7 @@ class FreeNbaApiClient {
         id: 1,
         date: new Date().toISOString(),
         home_team: this.getMockLakers(),
-        visitor_team: { id: 14, full_name: 'Los Angeles Lakers', abbreviation: 'LAL' },
+        visitor_team: { id: 5, full_name: 'Boston Celtics', abbreviation: 'BOS' },
         home_team_score: 115,
         visitor_team_score: 110,
         status: 'Final'
@@ -425,7 +425,7 @@ class FreeNbaApiClient {
     return {
       id: 999,
       date: tomorrow.toISOString(),
-      home_team: { id: 14, full_name: 'Los Angeles Lakers', abbreviation: 'LAL' },
+      home_team: { id: 5, full_name: 'Boston Celtics', abbreviation: 'BOS' },
       visitor_team: this.getMockLakers(),
       status: 'Scheduled'
     };

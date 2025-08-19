@@ -17,7 +17,6 @@
   let currentSeasonStats = null;
   let nextGame = null;
   let recentGames = [];
-  let tripleDoubleCount = 0;
 
   /**
    * 루카의 현재 시즌 통계를 불러오는 함수
@@ -25,12 +24,19 @@
    */
   const loadCurrentSeasonStats = async () => {
     try {
-      const stats = await lukaNbaApi.getCurrentSeasonStats();
-      currentSeasonStats = stats;
+      const [lukaInfo, teamStanding] = await Promise.all([
+        freeNbaApi.getLukaInfo(),
+        freeNbaApi.getLakersStanding()
+      ]);
+      
+      currentSeasonStats = {
+        player: lukaInfo,
+        team: teamStanding
+      };
     } catch (error) {
-      console.error('시즌 통계 로드 실패:', error);
+      console.error('데이터 로드 실패:', error);
       hasError = true;
-      errorMessage = '시즌 통계를 불러오는데 실패했습니다.';
+      errorMessage = 'API 요청 한계에 도달했습니다.';
     }
   };
 
@@ -40,7 +46,7 @@
    */
   const loadNextGame = async () => {
     try {
-      const game = await lukaNbaApi.getNextGame();
+      const game = await freeNbaApi.getNextGame();
       nextGame = game;
     } catch (error) {
       console.error('다음 경기 정보 로드 실패:', error);
@@ -53,18 +59,8 @@
    */
   const loadRecentGames = async () => {
     try {
-      const games = await lukaNbaApi.getRecentGames(5);
+      const games = await freeNbaApi.getRecentGames(5);
       recentGames = games;
-      
-      // 트리플 더블 횟수 계산
-      tripleDoubleCount = games.filter(game => {
-        const stats = game.player_stats;
-        return (
-          stats.pts >= 10 &&
-          stats.reb >= 10 &&
-          stats.ast >= 10
-        );
-      }).length;
     } catch (error) {
       console.error('최근 경기 정보 로드 실패:', error);
     }
@@ -139,110 +135,46 @@
       </div>
     </div>
 
-    <!-- 주요 통계 카드 -->
-    {#if currentSeasonStats}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="평균 득점"
-          value={formatNumber(currentSeasonStats.pts, 1)}
-          unit="점"
-          change={currentSeasonStats.pts_change}
-          trend={currentSeasonStats.pts_change > 0 ? 'up' : 'down'}
-          icon="🏀"
-        />
-        
-        <StatCard
-          title="평균 리바운드"
-          value={formatNumber(currentSeasonStats.reb, 1)}
-          unit="개"
-          change={currentSeasonStats.reb_change}
-          trend={currentSeasonStats.reb_change > 0 ? 'up' : 'down'}
-          icon="📈"
-        />
-        
-        <StatCard
-          title="평균 어시스트"
-          value={formatNumber(currentSeasonStats.ast, 1)}
-          unit="개"
-          change={currentSeasonStats.ast_change}
-          trend={currentSeasonStats.ast_change > 0 ? 'up' : 'down'}
-          icon="🎯"
-        />
-        
-        <StatCard
-          title="야투율"
-          value={formatPercentage(currentSeasonStats.fg_pct)}
-          unit="%"
-          change={currentSeasonStats.fg_pct_change}
-          trend={currentSeasonStats.fg_pct_change > 0 ? 'up' : 'down'}
-          icon="📊"
-        />
+    <!-- 루카 돈치치 기본 정보 -->
+    {#if currentSeasonStats && currentSeasonStats.player}
+      <div class="card p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">👤 선수 정보</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p class="mb-2"><strong>이름:</strong> {currentSeasonStats.player.first_name} {currentSeasonStats.player.last_name}</p>
+            <p class="mb-2"><strong>포지션:</strong> {currentSeasonStats.player.position || 'PG-SG'}</p>
+            <p class="mb-2"><strong>신장:</strong> {currentSeasonStats.player.height_feet || 6}ft {currentSeasonStats.player.height_inches || 7}in</p>
+            <p><strong>체중:</strong> {currentSeasonStats.player.weight_pounds || 230}lbs</p>
+          </div>
+          {#if currentSeasonStats.team}
+            <div>
+              <p class="mb-2"><strong>팀:</strong> {currentSeasonStats.team.team.full_name}</p>
+              <p class="mb-2"><strong>시즌 기록:</strong> {currentSeasonStats.team.wins}승 {currentSeasonStats.team.losses}패</p>
+              <p class="mb-2"><strong>승률:</strong> {(currentSeasonStats.team.win_percentage * 100).toFixed(1)}%</p>
+              <p><strong>컨퍼런스 순위:</strong> {currentSeasonStats.team.conference_rank || 'N/A'}위</p>
+            </div>
+          {/if}
+        </div>
       </div>
     {/if}
 
-    <!-- 트리플 더블 & 다음 경기 -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- 트리플 더블 카운터 -->
+    <!-- 다음 경기 정보만 표시 -->
+    {#if nextGame}
+      <GameSchedule game={nextGame} />
+    {:else}
       <div class="card p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-gray-900">🔥 트리플 더블</h3>
-          <span class="text-xs text-gray-500">최근 5경기</span>
-        </div>
-        <div class="text-center">
-          <div class="text-4xl font-bold text-mavs-blue mb-2">{tripleDoubleCount}</div>
-          <div class="text-sm text-gray-600">
-            {tripleDoubleCount > 0 ? `${tripleDoubleCount}회 달성!` : '아직 달성하지 못했어요'}
-          </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">📅 다음 경기</h3>
+        <div class="text-center text-gray-500">
+          <div class="text-4xl mb-2">📆</div>
+          <div>예정된 경기가 없습니다</div>
         </div>
       </div>
-
-      <!-- 다음 경기 -->
-      {#if nextGame}
-        <GameSchedule game={nextGame} />
-      {:else}
-        <div class="card p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">📅 다음 경기</h3>
-          <div class="text-center text-gray-500">
-            <div class="text-4xl mb-2">📆</div>
-            <div>예정된 경기가 없습니다</div>
-          </div>
-        </div>
-      {/if}
-    </div>
+    {/if}
 
     <!-- 최근 경기 결과 -->
     {#if recentGames.length > 0}
       <RecentGames games={recentGames} />
     {/if}
 
-    <!-- 빠른 액션 버튼 -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <a
-        href="/live"
-        class="btn-primary p-4 text-center rounded-lg hover:scale-105 transform transition-transform duration-200"
-      >
-        <div class="text-2xl mb-2">🔴</div>
-        <div class="font-semibold">실시간 경기</div>
-        <div class="text-xs opacity-90">현재 경기 추적</div>
-      </a>
-      
-      <a
-        href="/stats"
-        class="btn-secondary p-4 text-center rounded-lg hover:scale-105 transform transition-transform duration-200"
-      >
-        <div class="text-2xl mb-2">📊</div>
-        <div class="font-semibold">상세 통계</div>
-        <div class="text-xs opacity-75">시즌별 분석</div>
-      </a>
-      
-      <a
-        href="/records"
-        class="btn-ghost p-4 text-center rounded-lg hover:scale-105 transform transition-transform duration-200 border border-gray-300"
-      >
-        <div class="text-2xl mb-2">🏆</div>
-        <div class="font-semibold">기록실</div>
-        <div class="text-xs opacity-75">커리어 하이라이트</div>
-      </a>
-    </div>
   </div>
 {/if}

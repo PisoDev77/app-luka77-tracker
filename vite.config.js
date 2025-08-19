@@ -26,32 +26,9 @@ export default defineConfig({
         categories: ['sports', 'entertainment'],
         icons: [
           {
-            src: '/icon-192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any maskable'
-          },
-          {
-            src: '/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable'
-          }
-        ],
-        shortcuts: [
-          {
-            name: '실시간 게임',
-            short_name: 'Live',
-            description: '현재 진행 중인 게임 보기',
-            url: '/live',
-            icons: [{ src: '/shortcut-live.png', sizes: '96x96' }]
-          },
-          {
-            name: '통계 분석',
-            short_name: 'Stats',
-            description: '상세 통계 분석 보기',
-            url: '/stats',
-            icons: [{ src: '/shortcut-stats.png', sizes: '96x96' }]
+            src: '/favicon.ico',
+            sizes: '48x48',
+            type: 'image/x-icon'
           }
         ]
       },
