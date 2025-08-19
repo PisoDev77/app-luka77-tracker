@@ -20,10 +20,10 @@
    * @returns {string} 'W' 또는 'L'
    */
   const getGameResult = (game) => {
-    if (!game.home_team_score || !game.visitor_team_score) return 'N/A';
+    if (!game?.home_team_score || !game?.visitor_team_score) return 'N/A';
     
     // LA 레이커스가 홈팀인지 확인
-    const isLakersHome = game.home_team.abbreviation === 'LAL';
+    const isLakersHome = game.home_team?.abbreviation === 'LAL';
     const lakersScore = isLakersHome ? game.home_team_score : game.visitor_team_score;
     const oppScore = isLakersHome ? game.visitor_team_score : game.home_team_score;
     
@@ -36,7 +36,9 @@
    * @returns {Object} 상대팀 정보
    */
   const getOpponent = (game) => {
-    const isLakersHome = game.home_team.abbreviation === 'LAL';
+    if (!game?.home_team || !game?.visitor_team) return { abbreviation: 'TBD', city: '미정', name: '' };
+    
+    const isLakersHome = game.home_team?.abbreviation === 'LAL';
     return isLakersHome ? game.visitor_team : game.home_team;
   };
 
@@ -77,17 +79,17 @@
             {#each displayGames as game (game.id)}
               {@const gameResult = getGameResult(game)}
               {@const opponent = getOpponent(game)}
-              {@const dateInfo = formatGameDateTime(game.date)}
-              {@const isLakersHome = game.home_team.abbreviation === 'LAL'}
-              {@const lakersScore = isLakersHome ? game.home_team_score : game.visitor_team_score}
-              {@const oppScore = isLakersHome ? game.visitor_team_score : game.home_team_score}
+              {@const dateInfo = formatGameDateTime(game?.date)}
+              {@const isLakersHome = game?.home_team?.abbreviation === 'LAL'}
+              {@const lakersScore = isLakersHome ? (game?.home_team_score || 0) : (game?.visitor_team_score || 0)}
+              {@const oppScore = isLakersHome ? (game?.visitor_team_score || 0) : (game?.home_team_score || 0)}
               
               <tr class="hover:bg-gray-50 transition-colors duration-150">
                 <!-- 날짜 -->
                 <td class="px-4 py-4">
                   <div class="text-sm">
-                    <div class="font-medium text-gray-900">{dateInfo.date}</div>
-                    <div class="text-gray-500 text-xs">{dateInfo.dayOfWeek}</div>
+                    <div class="font-medium text-gray-900">{dateInfo?.date || '미정'}</div>
+                    <div class="text-gray-500 text-xs">{dateInfo?.dayOfWeek || ''}</div>
                   </div>
                 </td>
 
@@ -95,10 +97,10 @@
                 <td class="px-4 py-4">
                   <div class="flex items-center space-x-2">
                     <div class="text-sm font-medium text-gray-900">
-                      {opponent.abbreviation}
+                      {opponent?.abbreviation || 'TBD'}
                     </div>
                     <div class="text-xs text-gray-500">
-                      {opponent.city}
+                      {opponent?.city || '미정'}
                     </div>
                   </div>
                 </td>
